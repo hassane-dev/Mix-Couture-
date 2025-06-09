@@ -6,25 +6,7 @@ namespace App\Models;
 use PDO;
 use PDOException;
 
-class User {
-    private PDO $db;
-
-    public function __construct() {
-        // Database connection (simple PDO example)
-        // In a larger application, you'd typically use a dedicated Database class or service container
-        $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=' . DB_CHARSET;
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
-        try {
-            $this->db = new PDO($dsn, DB_USER, DB_PASS, $options);
-        } catch (PDOException $e) {
-            // In a real app, log this error and show a user-friendly message
-            throw new PDOException($e->getMessage(), (int)$e->getCode());
-        }
-    }
+class User extends \App\Core\BaseModel {
 
     /**
      * Finds a user by their email address.

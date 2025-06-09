@@ -6,38 +6,7 @@ namespace App\Models;
 use PDO;
 use PDOException;
 
-// Placeholder for database connection.
-// In a real app, this would be part of your core framework or a dedicated DB class.
-class Database {
-    private static ?PDO $instance = null;
-
-    public static function getConnection(): PDO {
-        if (self::$instance === null) {
-            $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=' . DB_CHARSET;
-            $options = [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES   => false,
-            ];
-            try {
-                self::$instance = new PDO($dsn, DB_USER, DB_PASS, $options);
-            } catch (PDOException $e) {
-                // Log error and rethrow or handle gracefully
-                error_log("Database Connection Error: " . $e->getMessage());
-                throw new PDOException("Database connection failed. Please try again later.", (int)$e->getCode());
-            }
-        }
-        return self::$instance;
-    }
-}
-
-
-class Client {
-    private PDO $db;
-
-    public function __construct() {
-        $this->db = Database::getConnection(); // Use the placeholder DB connection
-    }
+class Client extends \App\Core\BaseModel {
 
     /**
      * Fetches all clients.
