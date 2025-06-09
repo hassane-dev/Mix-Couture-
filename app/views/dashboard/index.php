@@ -25,7 +25,7 @@ $userEmail = $data['email'] ?? Session::get('user_email') ?? '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Fashion Platform</title>
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo BASE_URL; ?>/assets/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
@@ -82,6 +82,6 @@ $userEmail = $data['email'] ?? Session::get('user_email') ?? '';
     </div>
 
     <!-- Bootstrap 5 JS Bundle (Popper.js included) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo BASE_URL; ?>/assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
