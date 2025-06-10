@@ -9,12 +9,7 @@ use PDOException;
 // Assuming Database class from previous examples
 // class Database { ... }
 
-class OrderModel {
-    private PDO $db;
-
-    public function __construct() {
-        $this->db = Database::getConnection();
-    }
+class OrderModel extends \App\Core\BaseModel {
 
     /**
      * Fetches all active orders with basic client and model info.
