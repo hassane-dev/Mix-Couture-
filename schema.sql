@@ -4,7 +4,7 @@
 CREATE TABLE `Clients` (
     `ClientID` CHAR(36) PRIMARY KEY,
     `FullName` TEXT NOT NULL,
-    `Email` TEXT NOT NULL,
+    `Email` VARCHAR(255) NOT NULL,
     `PhoneNumber` TEXT NOT NULL,
     `AddressLine1` TEXT NULL,
     `AddressLine2` TEXT NULL,
@@ -15,75 +15,75 @@ CREATE TABLE `Clients` (
     `Notes` TEXT NULL,
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `UQ_Clients_Email` (`Email`(255)) -- Index length required for TEXT unique constraint
+    UNIQUE INDEX `UQ_Clients_Email` (`Email`)
 );
 
 CREATE TABLE `ModelCategories` (
     `ModelCategoryID` INT AUTO_INCREMENT PRIMARY KEY,
-    `CategoryName` TEXT NOT NULL,
+    `CategoryName` VARCHAR(255) NOT NULL,
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `UQ_ModelCategories_CategoryName` (`CategoryName`(255))
+    UNIQUE INDEX `UQ_ModelCategories_CategoryName` (`CategoryName`)
 );
 
 CREATE TABLE `Roles` (
     `RoleID` INT AUTO_INCREMENT PRIMARY KEY,
-    `RoleName` TEXT NOT NULL,
+    `RoleName` VARCHAR(255) NOT NULL,
     `Description` TEXT NULL,
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `UQ_Roles_RoleName` (`RoleName`(255))
+    UNIQUE INDEX `UQ_Roles_RoleName` (`RoleName`)
 );
 
 CREATE TABLE `Permissions` (
     `PermissionID` INT AUTO_INCREMENT PRIMARY KEY,
-    `PermissionName` TEXT NOT NULL,
+    `PermissionName` VARCHAR(255) NOT NULL,
     `Description` TEXT NULL,
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `UQ_Permissions_PermissionName` (`PermissionName`(255))
+    UNIQUE INDEX `UQ_Permissions_PermissionName` (`PermissionName`)
 );
 
 CREATE TABLE `OrderStatuses` (
     `OrderStatusID` INT AUTO_INCREMENT PRIMARY KEY,
-    `StatusName` TEXT NOT NULL,
+    `StatusName` VARCHAR(255) NOT NULL,
     `Description` TEXT NULL,
     `SortOrder` INT NULL,
     `IsSystemDefault` TINYINT(1) DEFAULT 0,
     `IsFinal` TINYINT(1) DEFAULT 0,
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `UQ_OrderStatuses_StatusName` (`StatusName`(255))
+    UNIQUE INDEX `UQ_OrderStatuses_StatusName` (`StatusName`)
 );
 
 CREATE TABLE `PaymentMethods` (
     `PaymentMethodID` INT AUTO_INCREMENT PRIMARY KEY,
-    `MethodName` TEXT NOT NULL,
+    `MethodName` VARCHAR(255) NOT NULL,
     `IsEnabled` TINYINT(1) DEFAULT 1 NOT NULL,
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `UQ_PaymentMethods_MethodName` (`MethodName`(255))
+    UNIQUE INDEX `UQ_PaymentMethods_MethodName` (`MethodName`)
 );
 
 CREATE TABLE `ExpenseCategories` (
     `ExpenseCategoryID` INT AUTO_INCREMENT PRIMARY KEY,
-    `CategoryName` TEXT NOT NULL,
+    `CategoryName` VARCHAR(255) NOT NULL,
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `UQ_ExpenseCategories_CategoryName` (`CategoryName`(255))
+    UNIQUE INDEX `UQ_ExpenseCategories_CategoryName` (`CategoryName`)
 );
 
 CREATE TABLE `Users` (
     `UserID` CHAR(36) PRIMARY KEY,
     `FullName` TEXT NOT NULL,
-    `Email` TEXT NOT NULL,
+    `Email` VARCHAR(255) NOT NULL,
     `PasswordHash` TEXT NOT NULL,
     `RoleID` INT NOT NULL,
     `IsActive` TINYINT(1) DEFAULT 1 NOT NULL,
     `LastLogin` TIMESTAMP NULL DEFAULT NULL,
     `CreatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `UpdatedAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `UQ_Users_Email` (`Email`(255)),
+    UNIQUE INDEX `UQ_Users_Email` (`Email`),
     CONSTRAINT `FK_Users_Roles` FOREIGN KEY (`RoleID`) REFERENCES `Roles` (`RoleID`) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 

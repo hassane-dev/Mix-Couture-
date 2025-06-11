@@ -6,35 +6,40 @@ require_once '../config/config.php';
 
 // Autoloader for classes
 spl_autoload_register(function ($className) {
-    // Convert namespace to path
-    // Example: App\Controllers\AuthController becomes app/controllers/AuthController.php
+    // Ensure backslashes are directory separators for internal consistency
     $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
 
-    $paths = [
-        APP_ROOT . '/', // For classes like App\Core\Router, App\Models\User
-        CORE_PATH,
-        CONTROLLERS_PATH,
-        MODELS_PATH
-    ];
+    $file = null;
 
-    foreach ($paths as $path) {
-        $file = $path . $className . '.php';
-        if (is_readable($file)) {
-            require_once $file;
-            return;
-        }
+    // Check for App\Core namespace
+    if (strpos($className, 'App' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR) === 0) {
+        // Remove 'App/Core/' prefix
+        $relativeClassName = substr($className, strlen('App' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR));
+        // CORE_PATH is defined in config.php as APP_ROOT . '/core/'
+        $file = CORE_PATH . $relativeClassName . '.php'; // e.g. app_root/core/Session.php
+    }
+    // Check for App\Controllers namespace
+    elseif (strpos($className, 'App' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR) === 0) {
+        // Remove 'App/Controllers/' prefix
+        $relativeClassName = substr($className, strlen('App' . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR));
+        // CONTROLLERS_PATH is defined in config.php as APP_ROOT . '/app/controllers/'
+        $file = CONTROLLERS_PATH . $relativeClassName . '.php'; // e.g. app_root/app/controllers/AuthController.php
+    }
+    // Check for App\Models namespace
+    elseif (strpos($className, 'App' . DIRECTORY_SEPARATOR . 'Models' . DIRECTORY_SEPARATOR) === 0) {
+        // Remove 'App/Models/' prefix
+        $relativeClassName = substr($className, strlen('App' . DIRECTORY_SEPARATOR . 'Models' . DIRECTORY_SEPARATOR));
+        // MODELS_PATH is defined in config.php as APP_ROOT . '/app/models/'
+        $file = MODELS_PATH . $relativeClassName . '.php'; // e.g. app_root/app/models/User.php
     }
 
-    // Fallback for simple class names without full namespace (adjust as needed for your structure)
-    // This might be needed if your classes are not strictly namespaced under App\
-    if (file_exists(APP_ROOT . '/' . $className . '.php')) {
-        require_once APP_ROOT . '/' . $className . '.php';
-    } elseif (file_exists(CORE_PATH . $className . '.php')) {
-        require_once CORE_PATH . $className . '.php';
-    } elseif (file_exists(CONTROLLERS_PATH . $className . '.php')) {
-        require_once CONTROLLERS_PATH . $className . '.php';
-    } elseif (file_exists(MODELS_PATH . $className . '.php')) {
-        require_once MODELS_PATH . $className . '.php';
+    if ($file && is_readable($file)) {
+        require_once $file;
+    } else {
+        // Optional: Log if a class in the App namespace was not found by this autoloader
+        // if (strpos($className, 'App' . DIRECTORY_SEPARATOR) === 0) {
+        //     error_log("Autoloader: Class " . $className . " not found. Tried path: " . ($file ?? 'N/A'));
+        // }
     }
 });
 
